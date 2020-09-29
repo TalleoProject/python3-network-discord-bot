@@ -6,15 +6,11 @@ Cryptonote network stats discord bot that displays a variety of network informat
 ## DEPENDENCIES
 
 ``
-apt-get install python3
+apt-get -y install python3 python3-pip
 ``
 
 ``
-apt-get -y install python3-pip
-``
-
-``
-python3 -m pip install discord.py==0.16.12
+python3 -m pip install discord.py==1.3.4
 ``
 
 ## HOW TO USE

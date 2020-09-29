@@ -5,7 +5,7 @@
 # DEPENDENCIES
 # sudo apt-get install python3
 # sudo apt-get -y install python3-pip
-# python3 -m pip install discord.py==0.16.12
+# python3 -m pip install discord.py==1.3.4
 #
 # HOW TO USE
 #  Go to https://discordapp.com/developers/applications/
@@ -22,9 +22,10 @@ import random
 import asyncio
 import aiohttp
 import json
+from discord.ext import commands
 from discord.ext.commands import Bot
 
-# bot description 
+# bot description
 # bot description displayed in help section
 description = '''Network bot displays a variety of information and statistics on almost any cryptonote network. To use the commands type them with the prefix of ampersand (&). You can find the commands and their use below. Add (&) in front of a command (EXAMPLE: &height)'''
 
@@ -51,86 +52,86 @@ client = Bot(command_prefix=BOT_PREFIX, description=description)
 # commmand: &height
 # network top block height
 @client.command(description="Network top block height.", brief="Blockchain height.")
-async def height():
+async def height(context: commands.Context):
     url = 'http://' + str(HOST) + ':' + str(PORT) + '/getheight'
     async with aiohttp.ClientSession() as session:  # Async HTTP request
         raw_response = await session.get(url)
         response = await raw_response.text()
         response = json.loads(response)
         # you can customize the output message(s) below
-        await client.say("🌐 **Network height:** " + str(response['height']))
+        await context.send("🌐 **Network height:** " + str(response['height']))
 
 # commmand: &hash
 # appx. network hash rate
 @client.command(description="Appx. network hash rate.", brief="Network hash rate.")
-async def hash():
+async def hash(context: commands.Context):
     url = 'http://' + str(HOST) + ':' + str(PORT) + '/getinfo'
     async with aiohttp.ClientSession() as session:  # Async HTTP request
         raw_response = await session.get(url)
         response = await raw_response.text()
         response = json.loads(response)
         # you can customize the output message(s) below
-        await client.say("🌐 **Network hash rate:** " + str(response['hashrate']) + " H/s")
+        await context.send("🌐 **Network hash rate:** " + str(response['hashrate']) + " H/s")
 
 # commmand: &diff
 # current network difficulty
 @client.command(description="Current network difficulty.", brief="Network difficulty.")
-async def diff():
+async def diff(context: commands.Context):
     url = 'http://' + str(HOST) + ':' + str(PORT) + '/getinfo'
     async with aiohttp.ClientSession() as session:  # Async HTTP request
         raw_response = await session.get(url)
         response = await raw_response.text()
         response = json.loads(response)
         # you can customize the output message(s) below
-        await client.say("🌐 **Network difficulty:** " + str(response['difficulty']))
+        await context.send("🌐 **Network difficulty:** " + str(response['difficulty']))
 
 # commmand: &tx
 # total network transactions
 @client.command(description="Total network transactions.", brief="Network transactions.")
-async def tx():
+async def tx(context: commands.Context):
     url = 'http://' + str(HOST) + ':' + str(PORT) + '/getinfo'
     async with aiohttp.ClientSession() as session:  # Async HTTP request
         raw_response = await session.get(url)
         response = await raw_response.text()
         response = json.loads(response)
         # you can customize the output message(s) below
-        await client.say("🌐 **Network transactions:** " + str(response['tx_count']))
+        await context.send("🌐 **Network transactions:** " + str(response['tx_count']))
 
 # commmand: &txpool
 # current transactions pool size
 @client.command(description="Current transactions pool size.", brief="TX pool size.")
-async def txpool():
+async def txpool(context: commands.Context):
     url = 'http://' + str(HOST) + ':' + str(PORT) + '/getinfo'
     async with aiohttp.ClientSession() as session:  # Async HTTP request
         raw_response = await session.get(url)
         response = await raw_response.text()
         response = json.loads(response)
         # you can customize the output message(s) below
-        await client.say("🌐 **Transactions pool:** " + str(response['tx_pool_size']))
+        await context.send("🌐 **Transactions pool:** " + str(response['tx_pool_size']))
 
 # commmand: &ver
 # current daemon version
 @client.command(description="Current daemon version.", brief="Daemon version.")
-async def ver():
+async def ver(context: commands.Context):
     url = 'http://' + str(HOST) + ':' + str(PORT) + '/getinfo'
     async with aiohttp.ClientSession() as session:  # Async HTTP request
         raw_response = await session.get(url)
         response = await raw_response.text()
         response = json.loads(response)
         # you can customize the output message(s) below
-        await client.say("🌐 **Daemon Version:** " + str(response['version']))
+        await context.send("🌐 **Daemon Version:** " + str(response['version']))
 
 # commmand: &stats
 # key network stats all in one place
 @client.command(description="Key network stats all in one place.", brief="Network stats.")
-async def stats():
+async def stats(context: commands.Context):
     url = 'http://' + str(HOST) + ':' + str(PORT) + '/getinfo'
     async with aiohttp.ClientSession() as session:  # Async HTTP request
         raw_response = await session.get(url)
         response = await raw_response.text()
         response = json.loads(response)
         # you can customize the output message(s) below
-        await client.say("🌐  NETWORK STATS\n**Height:** " + str(response['height']) + "    \n**Hash rate:** " + str(response['hashrate']) + " H/s    \n**Difficulty:** " + str(response['difficulty']) + "    \n**TX total:** " + str(response['tx_count']) + "    \n**TX in the pool:** " + str(response['tx_pool_size']) + "    \n**Daemon version:** " + str(response['version'])
+        await context.send("🌐  NETWORK STATS\n**Height:** " + str(response['height']) + "    \n**Hash rate:** " + str(response['hashrate']) + " H/s    \n**Difficulty:** " + str(response['difficulty']) + "    \n**TX total:** " + str(response['tx_count']) + "    \n**TX in the pool:** " + str(response['tx_pool_size']) + "    \n**Daemon version:** " + str(response['version'])
          )
 
 
